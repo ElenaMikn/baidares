@@ -1,0 +1,80 @@
+.em_head
+{
+	padding-top:15px !important; 
+	color: #de0000;
+	background-color: white;
+	opacity:0.8;
+	margin-top: 50px;
+
+}
+.em_uzsakymas
+{
+	background-color: white;
+	padding-top:15px ;
+	margin-right: 0px;
+	margin-left: 0px;
+
+}
+.em_body {
+	background-image: url("images/2.jpg");
+}
+
+.em_FixedNavbar{
+	background-image: linear-gradient(to bottom,#f90906 0,#5f0808 100%);
+	opacity:0.8;
+}
+.em_text_white{
+	
+	color:white;
+}
+.navbar-inverse .navbar-nav>li>a
+{
+	color:wheat;
+}
+.em_h1{
+	margin-left: 20px;
+	color: #d80000;
+	margin-top: 10px;
+	}
+.em_h3{
+	margin-left: 20px;
+	color: #d80000;
+	margin-top: 10px;
+	}
+.em_img{
+	padding-top: 20px;
+	width: 100%;
+}
+.em_footer{
+	opacity:0.8;
+	/*margin-top: 200px;*/
+	color: white;
+	padding: 10px !important; 
+	position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    /*background-color: red;*/
+	/*background-image: linear-gradient(to bottom,#f90906 0,#5f0808 100%);*/
+	background-image: linear-gradient(to bottom,#5f0808 0,#f90906 100%);
+    text-align: center;
+}
+.em_kontaktai
+{
+	background-color: white;
+	padding:15px ;
+	margin-right: 0px;
+	margin-left: 0px;
+	height: 420px;
+}
+.em_margin_bottom{
+		margin-bottom: 30px;
+}
+/*
+.table-responsive>.table>tbody>tr>td, .table-responsive>.table>tbody>tr>th, .table-responsive>.table>tfoot>tr>td, .table-responsive>.table>tfoot>tr>th, .table-responsive>.table>thead>tr>td, .table-responsive>.table>thead>tr>th {
+   white-space: normal;
+}
+.table-responsive>.table>tbody>tr>td>input
+{
+	width: 40px;
+}*/
