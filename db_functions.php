@@ -190,6 +190,12 @@ function set_uzsakymas($duom)
 }
 function set_klientas($duom)
 {
+    $user=get_klientas_info($duom["user_id"]);
+    if($user!=null)
+    {
+        return  $user[0]['id'] ;
+    }
+
 	global $servername, $username, $password, $dbname;
     $conn = new mysqli($servername, $username, $password, $dbname);
   
@@ -197,7 +203,7 @@ function set_klientas($duom)
         die("Connection failed: " . $conn->connect_error);
     } 
 	$result = $conn->query("set names 'utf8'");
-	$sql = "INSERT into klientas (vardas, pavarde,tel_numeris,`e-pastas`) values ('".$duom["vardas"]."', '".$duom["pavarde"]."','".$duom["tel_numeris"]."','".$duom["epastas"]."') ";
+	$sql = "INSERT into klientas (vardas, pavarde,tel_numeris,`e-pastas`,googleId) values ('".$duom["vardas"]."', '".$duom["pavarde"]."','".$duom["tel_numeris"]."','".$duom["epastas"]."','".$duom["user_id"]."') ";
     if ($conn->query($sql) === TRUE) {
          $last_id = $conn->insert_id;
        $conn->close();
@@ -206,7 +212,7 @@ function set_klientas($duom)
         // .$conn->close();
         return $conn->error;
     }
-}
+} 
 function set_maistas($duom, $usakymoNr)
 {
 	global $servername, $username, $password, $dbname;
@@ -394,4 +400,28 @@ function set_uzsakymas_data($id, $data, $kiekis)
     }
 	return 1;
 }
+
+function get_klientas_info($id)
+{
+    global $servername, $username, $password, $dbname;
+    $conn = new mysqli($servername, $username, $password, $dbname);
+  
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } 
+	$result = $conn->query("set names 'utf8'");
+    $sql = " SELECT `id`,`googleId` FROM `klientas` WHERE `googleId` = ".$id;
+    $result = $conn->query($sql);
+
+    $rez=null;
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+        $rez[]=$row;
+        }
+    }
+
+    $conn->close();
+    return $rez;
+}
+
 ?>

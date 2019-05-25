@@ -28,6 +28,7 @@
   <div class="col-md-12">
   <form action="uzsakyti.php" method="POST">
   <input type="hidden" name="marsruto_id" value=<?=  $marsruto_id?> >
+  <input type="hidden" name="user_id"  >
   <input type="date" name="plaukimo_data" >
    <div class="table-responsive">
     <table class="table">
@@ -176,16 +177,19 @@
     gapi.auth2.init({
         client_id: '796352531135-2qdobau0mekg56599mpt1aj3q8cu3rvj.apps.googleusercontent.com',
       }).then(function(){
-//debugger;
+
       auth2 = gapi.auth2.getAuthInstance();
       if(auth2.isSignedIn.get() ){
       const googleUser = auth2.currentUser.get();
       const profile = googleUser.getBasicProfile();
-      vardaPavarde=profile.getName();
-      var res = vardaPavarde.split(" ");
-      document.getElementsByName ("vardas")[0].value=res[0];
-      document.getElementsByName ("pavarde")[0].value=res[1];
+      
+      document.getElementsByName ("vardas")[0].value=profile.ofa;
+      document.getElementsByName ("pavarde")[0].value=profile.wea;
       document.getElementsByName ("epastas")[0].value=profile.getEmail();
+//debugger;
+      document.getElementsByName ("user_id")[0].value= profile.getId();
+      
+     
       }
         });
       }); 

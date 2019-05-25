@@ -114,7 +114,7 @@ function signIn() {
   tryIt(1);
 }
 var onSuccess = function(user) {
-    console.log('ssigned in as ' + user.getBasicProfile().getName());
+    console.log('Signed in as ' + user.getBasicProfile().getName());
  };
   function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
