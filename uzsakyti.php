@@ -170,6 +170,27 @@
   
 
 <script type="text/javascript">
+
+    gapi.load('auth2', function() {
+
+    gapi.auth2.init({
+        client_id: '796352531135-2qdobau0mekg56599mpt1aj3q8cu3rvj.apps.googleusercontent.com',
+      }).then(function(){
+//debugger;
+      auth2 = gapi.auth2.getAuthInstance();
+      if(auth2.isSignedIn.get() ){
+      const googleUser = auth2.currentUser.get();
+      const profile = googleUser.getBasicProfile();
+      vardaPavarde=profile.getName();
+      var res = vardaPavarde.split(" ");
+      document.getElementsByName ("vardas")[0].value=res[0];
+      document.getElementsByName ("pavarde")[0].value=res[1];
+      document.getElementsByName ("epastas")[0].value=profile.getEmail();
+      }
+        });
+      }); 
+
+
 function change_total(){
   var sumos=document.getElementsByClassName("suma");
   var suma_viso=0;

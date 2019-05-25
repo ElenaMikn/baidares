@@ -12,7 +12,8 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script                         src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
+    <script type="text/javascript"  src="https://apis.google.com/js/api:client.js?onLoad=onGoogleScriptLoaded"></script>
     <meta name="google-signin-client_id" content="796352531135-2qdobau0mekg56599mpt1aj3q8cu3rvj.apps.googleusercontent.com">
 
 
@@ -45,21 +46,72 @@
           <a class="navbar-brand" href="/baidares"> <img src="images/logotipas.png" alt="logotipas"  ></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav" style="width: 650px; ">
+          <ul class="nav navbar-nav" style="width: 777px; ">
             <li><a href="marsrutai.php" class ="em_text_white"><strong>Maršrutai / Užsakyti plaukimą </strong></a></li>
             <li><a href="kontaktai.php"><strong>Kontaktai</strong></a></li>
 			      <li class="em_floate"><a href="uzsakymai.php"><strong>Užsakymų peržiūra </strong></a></li>
-            <li id="LogIn" class="em_floate"><div class="g-signin2" data-onsuccess="onSignIn" onclick="signIn();"></div></li>
-            <li id="LogOut"> <a href="#" onclick="signOut();">Sign out</a>
+            <li class="em_floate"><div id="LogIn"  class="g-signin2" data-onsuccess="onSignIn" onclick="signIn();"></div></li>
+            <li class="em_floate"><a id="LogOut" href="#" onclick="signOut();">Sign out</a> </li>
+            <li class="em_floate"><img id="user_img"  style="margin: 11px; size: 20px; height: 60px;" src="" alt="Italian Trulli"></li>
+            
 <script>
-function signIn() {
-  const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
+window.onGoogleScriptLoad = () => {
+  console.log('The google script has really loaded, cool!');
+
+}
+function tryIt(is){
+gapi.load('auth2', function() {
+
+gapi.auth2.init({
+
+  client_id: '796352531135-2qdobau0mekg56599mpt1aj3q8cu3rvj.apps.googleusercontent.com',
+
+}).then(function(){
+
+  auth2 = gapi.auth2.getAuthInstance();
+  console.log(auth2.isSignedIn.get()); 
+
+  if(auth2.isSignedIn.get() || is==1){
+  const googleUser = auth2.currentUser.get();
   const profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  document.getElementById("LogIn").style.visibility = "hidden";
+  document.getElementById("LogOut").style.visibility = "";
+  document.getElementById("user_img").style.visibility = "";
+  document.getElementById("user_img").src=profile.getImageUrl();
+  document.getElementById("user_img").alt=profile.getName();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead. 
   console.log('Name: ' + profile.getName());
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  }
+  else
+  {
+    document.getElementById("LogIn").style.visibility = "";
+    document.getElementById("LogOut").style.visibility = "hidden";
+    document.getElementById("user_img").style.visibility = "hidden";
+  }
+});
+});
 
+}
+
+tryIt(0);
+function signIn() {
+  const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
+  const profile = googleUser.getBasicProfile();
+  //console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  //console.log('Name: ' + profile.getName());
+  //console.log('Image URL: ' + profile.getImageUrl());
+  //console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  //var myUserEntity = {};
+  //myUserEntity.Id = profile.getId();
+  //myUserEntity.Name = profile.getName();
+
+  //sessionStorage.setItem('myUserEntity',JSON.stringify(myUserEntity));
+  //document.getElementById("LogIn").style.visibility = "hidden";
+  //document.getElementById("LogOut").style.visibility = "block";
+  //document.getElementById("user_img").style.visibility = "block";
+  tryIt(1);
 }
 var onSuccess = function(user) {
     console.log('ssigned in as ' + user.getBasicProfile().getName());
@@ -68,9 +120,13 @@ var onSuccess = function(user) {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
       console.log('User signed out.');
+      //document.getElementById("LogIn").style.visibility = "block";
+    //document.getElementById("LogOut").style.visibility = "hidden";
+    //document.getElementById("user_img").style.visibility = "hidden";
+    tryIt(0);
     });
   }
-</script></li>
+</script>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
