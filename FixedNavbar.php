@@ -12,6 +12,14 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="796352531135-2qdobau0mekg56599mpt1aj3q8cu3rvj.apps.googleusercontent.com">
+
+
+    <meta name="google-signin-cookiepolicy" content="single_host_origin" />
+    <meta name="google-signin-requestvisibleactions" content="https://schema.org/AddAction" />
+    <meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login" />
+
     <link rel="icon" href="../../favicon.ico">
 
     <title>Baidares</title>
@@ -40,7 +48,29 @@
           <ul class="nav navbar-nav" style="width: 650px; ">
             <li><a href="marsrutai.php" class ="em_text_white"><strong>Maršrutai / Užsakyti plaukimą </strong></a></li>
             <li><a href="kontaktai.php"><strong>Kontaktai</strong></a></li>
-			<li class="em_floate"><a href="uzsakymai.php"><strong>Užsakymų peržiūra </strong></a></li>
+			      <li class="em_floate"><a href="uzsakymai.php"><strong>Užsakymų peržiūra </strong></a></li>
+            <li id="LogIn" class="em_floate"><div class="g-signin2" data-onsuccess="onSignIn" onclick="signIn();"></div></li>
+            <li id="LogOut"> <a href="#" onclick="signOut();">Sign out</a>
+<script>
+function signIn() {
+  const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
+  const profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+}
+var onSuccess = function(user) {
+    console.log('ssigned in as ' + user.getBasicProfile().getName());
+ };
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+</script></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

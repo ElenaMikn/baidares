@@ -33,7 +33,7 @@
             </li>
             
               <?php
-              if(sizeof($marsrutas["nakvyne"])>0)
+              if($marsrutas["nakvyne"]!=null && sizeof($marsrutas["nakvyne"])>0)
               {
                 ?>
                 <li class="list-group-item">
