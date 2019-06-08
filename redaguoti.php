@@ -18,6 +18,7 @@
 	   <div class="col-md-12">
 	   <div class="col-md-12 col-lg-4">
 	    <input type="hidden" name="id" value=<?php echo $uzsakymas_id?> >
+			<input type="hidden" name="user_id"  >
 		
 		<label for="plaukimo_data">Data</label>
 	   <input type="date" name="plaukimo_data" id="plaukimo_data" value="<?php
@@ -53,7 +54,7 @@
 	  <div class="row">
 	  <div class="col-md-12">
 	 <?php
-	 $rez=set_uzsakymas_data($_POST["id"],$_POST["plaukimo_data"],$_POST["plaukimo_kiekis"]);
+	 $rez=set_uzsakymas_data($_POST["id"],$_POST["plaukimo_data"],$_POST["plaukimo_kiekis"], $_POST["user_id"]);
 	 if($rez==1)
      {
        ?>

@@ -6,8 +6,13 @@
    ?>
     
    <?php
-   	$uzsakymas_id=$_GET["id"];
-	delete_uzsakymas($uzsakymas_id);
+     $uzsakymas_id=$_GET["id"];
+     if($_COOKIE['user_id'] !="")
+		 {
+       //$uzsakymai=get_uzsakymai( ); 
+       delete_uzsakymas($uzsakymas_id,$_COOKIE['user_id']);
+		 }
+	
 		
 
    ?>

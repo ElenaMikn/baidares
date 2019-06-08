@@ -10,6 +10,7 @@
         <h1 class=em_h1>Užsakymų peržiūra</h1>
       </div>
 	   <form action="uzsakymai.php" method="POST">
+		 <input type="hidden" name="user_id"  >
 	   <input type="date" name="plaukimo_data" value="<?php
 	  if($_POST!=null )
    {
@@ -38,26 +39,27 @@
 <?php
 if($_POST==null )
    {
-	   $uzsakymai=get_uzsakymai();
+		 if($_COOKIE['user_id'] !="")
+		 {
+		 	$uzsakymai=get_uzsakymai($_COOKIE['user_id'] );
+		 }
    }
    else
    {
+		//setcookie("user_id", $_POST['user_id'], time()+3600);  /* expire in 1 hour */
+		//$_COOKIE['user_id'] = $_POST['user_id'];
 	   if($_POST['plaukimo_data']!=null)
 	   {
-		   
-	   
-	   $uzsakymai=get_uzsakymai_by_date($_POST['plaukimo_data']);
+ 		   $uzsakymai=get_uzsakymai_by_date($_POST['plaukimo_data'],$_POST['user_id']);
 	   }
 	   else
 		   {
-			   $uzsakymai=get_uzsakymai();
+			   $uzsakymai=get_uzsakymai($_POST['user_id']);
 		   }
    }
    if($uzsakymai!=null)
   foreach($uzsakymai as $uzsakymas)
   {
-//print_r($marsrutas["pavadinimas"]);
-//echo date("Y-m-d");
 $ymd = DateTime::createFromFormat('Y-m-d', $uzsakymas['data'])->format('Y-m-d');
 ?>
      
@@ -84,7 +86,7 @@ $ymd = DateTime::createFromFormat('Y-m-d', $uzsakymas['data'])->format('Y-m-d');
         </div>
       </div>
 
-
+		
 
 
      <!--</div> /container -->

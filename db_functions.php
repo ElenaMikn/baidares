@@ -268,8 +268,14 @@ function set_nakvyne($duom)
     }
 }
 
-function delete_uzsakymas($uzsakymas_id)
+function delete_uzsakymas($uzsakymas_id,$userId)
 {
+    $usreIinfo=get_klientas_uzsakymas_info($uzsakymas_id,$userId);
+    if($usreIinfo==null)
+    {
+        return "Nerado kiento";
+    }
+
 	global $servername, $username, $password, $dbname;
     $conn = new mysqli($servername, $username, $password, $dbname);
   
@@ -287,7 +293,7 @@ function delete_uzsakymas($uzsakymas_id)
 	$result = $conn->query($sql);
     
 }
-function get_uzsakymai()
+function get_uzsakymai($userId)
 {
     global $servername, $username, $password, $dbname;
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -299,7 +305,7 @@ function get_uzsakymai()
     $sql = "select u.id,u.kiekis,u.data,m.id as m_id,m.pavadinimas,m.kaina,n.pavadinimas as nak_pav, k.vardas,k.pavarde,k.tel_numeris
     from uzsakymas u join marsrutas m on u.marsruto_id=m.id
     join klientas k on k.id=u.klientas_id
-    left join  nakvyne n on u.nakvynes_id=n.id   order by u.data desc";
+    left join  nakvyne n on u.nakvynes_id=n.id  where k.googleId='".$userId."' order by u.data desc";
     $result = $conn->query($sql);
 
     $rez=null;
@@ -313,7 +319,7 @@ function get_uzsakymai()
     return $rez;
 }
 
-function get_uzsakymai_by_date($date)
+function get_uzsakymai_by_date($date,$userId)
 {
     global $servername, $username, $password, $dbname;
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -325,7 +331,7 @@ function get_uzsakymai_by_date($date)
     $sql = "select u.id,u.kiekis,u.data,m.id as m_id,m.pavadinimas,m.kaina,n.pavadinimas as nak_pav, k.vardas,k.pavarde,k.tel_numeris
     from uzsakymas u join marsrutas m on u.marsruto_id=m.id
     join klientas k on k.id=u.klientas_id
-    left join  nakvyne n on u.nakvynes_id=n.id where u.data='".$date."'  order by u.data desc";
+    left join  nakvyne n on u.nakvynes_id=n.id where u.data='".$date."' and k.googleId='".$userId."' order by u.data desc";
     $result = $conn->query($sql);
 
     $rez=null;
@@ -365,7 +371,7 @@ function get_uzsakymas($id)
     return $rez;
 }
 
-function set_uzsakymas_data($id, $data, $kiekis)
+function set_uzsakymas_data($id, $data, $kiekis,$user_id)
 {
 	if($data=='')
     {
@@ -383,13 +389,18 @@ function set_uzsakymas_data($id, $data, $kiekis)
     {
         return "Plaukiančių žmonių kiekis turi būti daugiau už 0";
     }
+    $usreIinfo=get_klientas_info($user_id);
+    if($usreIinfo==null)
+    {
+        return "Nerado kiento";
+    }
 	global $servername, $username, $password, $dbname;
     $conn = new mysqli($servername, $username, $password, $dbname);
   
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     } 
-	$sql = "update uzsakymas set data='".$data."', kiekis=".$kiekis." where id=".$id;
+    $sql = "update uzsakymas set data='".$data."', kiekis=".$kiekis." where id=".$id ." and klientas_id=".$usreIinfo[0]["id"];
     if ($conn->query($sql) === TRUE) {
          
         $conn->close();
@@ -424,4 +435,26 @@ function get_klientas_info($id)
     return $rez;
 }
 
+function get_klientas_uzsakymas_info($uzsakymas_id,$userId)
+{
+    global $servername, $username, $password, $dbname;
+    $conn = new mysqli($servername, $username, $password, $dbname);
+  
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } 
+	$result = $conn->query("set names 'utf8'");
+    $sql = " SELECT * FROM `uzsakymas` u JOIN `klientas` k on klientas_id=k.id WHERE k.googleid='".$userId."' and u.id=".$uzsakymas_id;
+    $result = $conn->query($sql);
+
+    $rez=null;
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+        $rez[]=$row;
+        }
+    }
+
+    $conn->close();
+    return $rez;
+}
 ?>
