@@ -16,8 +16,7 @@
     <script                         src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
     <script type="text/javascript"  src="https://apis.google.com/js/api:client.js?onLoad=onGoogleScriptLoaded"></script>
     <meta name="google-signin-client_id" content="796352531135-2qdobau0mekg56599mpt1aj3q8cu3rvj.apps.googleusercontent.com">
-
-
+    <!--https://developers.google.com/identity/sign-in/web/sign-in-->
     <meta name="google-signin-cookiepolicy" content="single_host_origin" />
     <meta name="google-signin-requestvisibleactions" content="https://schema.org/AddAction" />
     <meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login" />
@@ -50,9 +49,34 @@
           <ul class="nav navbar-nav" style="width: 777px; ">
             <li><a href="marsrutai.php" class ="em_text_white"><strong>Maršrutai / Užsakyti plaukimą </strong></a></li>
             <li><a href="kontaktai.php"><strong>Kontaktai</strong></a></li>
-			      <li class="em_floate"><a href="uzsakymai.php"><strong>Užsakymų peržiūra </strong></a></li>
+            <?php
+            include  'db_functions.php';// ikrauname reikalingas DB funkcijas
+
+            //$usreIinfo=get_klientas_info($userId);
+            if($_COOKIE['user_id'] !="")
+            {
+              $usreIinfo=get_klientas_info($_COOKIE['user_id'] );
+            }
+            if($usreIinfo[0]==null)
+            {
+             //   return "Nerado kiento";
+            }
+            $usreIinfo[0]["isAdmin"]=$usreIinfo[0]["isAdmin"]!=1?0:1;
+            if($usreIinfo[0]["isAdmin"]==1)
+            {
+            ?>
+			      <li class="em_floate"><a href="uzsakymai_admin.php"><strong>Užsakymų peržiūra </strong></a></li>
+            <?php
+            }
+            else
+            {
+            ?>
+            <li class="em_floate"><a href="uzsakymai.php"><strong>Užsakymų peržiūra </strong></a></li>
+            <?php
+            }
+            ?>
             <li class="em_floate"><div id="LogIn"  class="g-signin2" data-onsuccess="onSignIn" onclick="signIn();"></div></li>
-            <li class="em_floate"><a id="LogOut" href="#" onclick="signOut();">Sign out</a> </li>
+            <li class="em_floate"><a id="LogOut" href="#" onclick="signOut();" data-prompt="select_account">Sign out</a> </li>
             <li class="em_floate"><img id="user_img"  style="margin: 11px; size: 20px; height: 60px;" src="" alt="Italian Trulli"></li>
             
 <script>
@@ -65,25 +89,27 @@ gapi.load('auth2', function() {
 
 gapi.auth2.init({
 
-  client_id: '796352531135-2qdobau0mekg56599mpt1aj3q8cu3rvj.apps.googleusercontent.com',
+  client_id: '796352531135-2qdobau0mekg56599mpt1aj3q8cu3rvj.apps.googleusercontent.com'
+  //,    prompt: 'select_account'
 
 }).then(function(){
 
   auth2 = gapi.auth2.getAuthInstance();
-  console.log(auth2.isSignedIn.get()); 
 
-  if(auth2.isSignedIn.get() || is==1){
-  const googleUser = auth2.currentUser.get();
-  const profile = googleUser.getBasicProfile();
-  document.getElementById("LogIn").style.visibility = "hidden";
-  document.getElementById("LogOut").style.visibility = "";
-  document.getElementById("user_img").style.visibility = "";
-  document.getElementById("user_img").src=profile.getImageUrl();
-  document.getElementById("user_img").alt=profile.getName();
-  //console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead. 
-  //console.log('Name: ' + profile.getName());
-  //console.log('Image URL: ' + profile.getImageUrl());
-  //console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  if(auth2.isSignedIn.get()||is==1)
+  {
+  
+    document.getElementById("LogIn").style.visibility = "hidden";
+    document.getElementById("LogOut").style.visibility = "";
+    document.getElementById("user_img").style.visibility = "";
+    if(auth2.isSignedIn.get() )
+    {
+      const googleUser = auth2.currentUser.get();
+      const profile = googleUser.getBasicProfile();
+      setCookie("user_id", profile.getId(), 365);
+      document.getElementById("user_img").alt=profile.getName();
+      document.getElementById("user_img").src=profile.getImageUrl();
+    }
   }
   else
   {
@@ -97,35 +123,29 @@ gapi.auth2.init({
 }
 
 tryIt(0);
+
 function signIn() {
+  console.log('ID:');
   const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
   const profile = googleUser.getBasicProfile();
-  //console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  //console.log('Name: ' + profile.getName());
-  //console.log('Image URL: ' + profile.getImageUrl());
-  //console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  //var myUserEntity = {};
-  //myUserEntity.Id = profile.getId();
-  //myUserEntity.Name = profile.getName();
-
-  //sessionStorage.setItem('myUserEntity',JSON.stringify(myUserEntity));
-  //document.getElementById("LogIn").style.visibility = "hidden";
-  //document.getElementById("LogOut").style.visibility = "block";
-  //document.getElementById("user_img").style.visibility = "block";
-  tryIt(1);
+ // tryIt(1);
+  
 }
-var onSuccess = function(user) {
-    console.log('Signed in as ' + user.getBasicProfile().getName());
- };
-  function signOut() {
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  setCookie("user_id", profile.getId(), 365);
+  //console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead. 
+  document.getElementById("user_img").alt=profile.getName();
+  document.getElementById("user_img").src=profile.getImageUrl();
+  //location.reload();
+}
+
+function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
-      setCookie("user_id", "", 365);
-      //console.log('User signed out.');
-      //document.getElementById("LogIn").style.visibility = "block";
-    //document.getElementById("LogOut").style.visibility = "hidden";
-    //document.getElementById("user_img").style.visibility = "hidden";
+    setCookie("user_id", "", 365);
     tryIt(0);
+    location.reload();
     });
   }
 </script>

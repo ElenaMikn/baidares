@@ -295,6 +295,12 @@ function delete_uzsakymas($uzsakymas_id,$userId)
 }
 function get_uzsakymai($userId)
 {
+    $usreIinfo=get_klientas_info($userId);
+    if($usreIinfo[0]==null)
+    {
+        return "Nerado kiento";
+    }
+    $usreIinfo[0]["isAdmin"]=$usreIinfo[0]["isAdmin"]!=1?0:1;
     global $servername, $username, $password, $dbname;
     $conn = new mysqli($servername, $username, $password, $dbname);
   
@@ -305,8 +311,9 @@ function get_uzsakymai($userId)
     $sql = "select u.id,u.kiekis,u.data,m.id as m_id,m.pavadinimas,m.kaina,n.pavadinimas as nak_pav, k.vardas,k.pavarde,k.tel_numeris
     from uzsakymas u join marsrutas m on u.marsruto_id=m.id
     join klientas k on k.id=u.klientas_id
-    left join  nakvyne n on u.nakvynes_id=n.id  where k.googleId='".$userId."' order by u.data desc";
+    left join  nakvyne n on u.nakvynes_id=n.id  where k.googleId='".$userId."' or ".$usreIinfo[0]["isAdmin"]."=1 order by u.data desc";
     $result = $conn->query($sql);
+   
 
     $rez=null;
     if ($result->num_rows > 0) {
@@ -321,6 +328,13 @@ function get_uzsakymai($userId)
 
 function get_uzsakymai_by_date($date,$userId)
 {
+    $usreIinfo=get_klientas_info($userId);
+    if($usreIinfo[0]==null)
+    {
+        return "Nerado kiento";
+    }
+    $usreIinfo[0]["isAdmin"]=$usreIinfo[0]["isAdmin"]!=1?0:1;
+
     global $servername, $username, $password, $dbname;
     $conn = new mysqli($servername, $username, $password, $dbname);
   
@@ -331,9 +345,8 @@ function get_uzsakymai_by_date($date,$userId)
     $sql = "select u.id,u.kiekis,u.data,m.id as m_id,m.pavadinimas,m.kaina,n.pavadinimas as nak_pav, k.vardas,k.pavarde,k.tel_numeris
     from uzsakymas u join marsrutas m on u.marsruto_id=m.id
     join klientas k on k.id=u.klientas_id
-    left join  nakvyne n on u.nakvynes_id=n.id where u.data='".$date."' and k.googleId='".$userId."' order by u.data desc";
+    left join  nakvyne n on u.nakvynes_id=n.id where u.data='".$date."' and ( k.googleId='".$userId."' or ".$usreIinfo[0]["isAdmin"]."=1 ) order by u.data desc";
     $result = $conn->query($sql);
-
     $rez=null;
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
@@ -421,9 +434,9 @@ function get_klientas_info($id)
         die("Connection failed: " . $conn->connect_error);
     } 
 	$result = $conn->query("set names 'utf8'");
-    $sql = " SELECT `id`,`googleId` FROM `klientas` WHERE `googleId` = ".$id;
+    $sql = " SELECT `id`,`googleId`, `isAdmin` FROM `klientas` WHERE `googleId` = ".$id;
     $result = $conn->query($sql);
-
+    
     $rez=null;
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
@@ -446,7 +459,7 @@ function get_klientas_uzsakymas_info($uzsakymas_id,$userId)
 	$result = $conn->query("set names 'utf8'");
     $sql = " SELECT * FROM `uzsakymas` u JOIN `klientas` k on klientas_id=k.id WHERE k.googleid='".$userId."' and u.id=".$uzsakymas_id;
     $result = $conn->query($sql);
-
+   
     $rez=null;
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
