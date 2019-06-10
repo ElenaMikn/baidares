@@ -34,7 +34,7 @@
 
   <body class="em_body" > 
  <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top em_FixedNavbar ">
+    <nav class="navbar navbar-inverse em_FixedNavbar container ">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">

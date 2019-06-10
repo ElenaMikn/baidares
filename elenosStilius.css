@@ -2,9 +2,10 @@
 {
 	padding-top:15px !important; 
 	color: #de0000;
-	background-color: white;
-	opacity:0.8;
-	margin-top: 50px;
+	background-color: #ffffff;
+	/*opacity:0.8;
+	margin-top: 50px;*/
+	margin:0px;
 
 }
 .em_uzsakymas
@@ -17,11 +18,18 @@
 }
 .em_body {
 	background-image: url("images/2.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
 }
 
 .em_FixedNavbar{
 	background-image: linear-gradient(to bottom,#f90906 0,#5f0808 100%);
 	opacity:0.8;
+	margin-bottom: 0px; 
+	padding-right: 0px;
+	padding-left: 0px;
+	border-radius: 0px; 
+	margin-top: 30px;
 }
 .em_text_white{
 	
@@ -50,14 +58,15 @@
 	/*margin-top: 200px;*/
 	color: white;
 	padding: 10px !important; 
-	position: fixed;
+	/**position: fixed;*/
     left: 0;
     bottom: 0;
-    width: 100%;
+    /*width: 100%;**/
     /*background-color: red;*/
 	/*background-image: linear-gradient(to bottom,#f90906 0,#5f0808 100%);*/
 	background-image: linear-gradient(to bottom,#5f0808 0,#f90906 100%);
-    text-align: center;
+	text-align: center;
+	margin-bottom: 20px;
 }
 .em_kontaktai
 {
@@ -68,7 +77,9 @@
 	height: 420px;
 }
 .em_margin_bottom{
-		margin-bottom: 30px;
+		/*margin-bottom: 30px;*/
+		padding-right: 0px;
+		padding-left: 0px;
 }
 /*
 .table-responsive>.table>tbody>tr>td, .table-responsive>.table>tbody>tr>th, .table-responsive>.table>tfoot>tr>td, .table-responsive>.table>tfoot>tr>th, .table-responsive>.table>thead>tr>td, .table-responsive>.table>thead>tr>th {

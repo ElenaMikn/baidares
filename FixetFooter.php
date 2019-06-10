@@ -1,5 +1,5 @@
 </div>
-<div class="em_footer">
+<div class="em_footer container theme-showcase">
    <p>Baidarių nuoma Aukštaitijoje. Tel. +370 331 7772  </p>
 </div>
 <script type="text/javascript">
