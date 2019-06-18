@@ -59,7 +59,7 @@
             }
             if($usreIinfo[0]==null)
             {
-             //   return "Nerado kiento";
+             //   return "Nerado kiento"; 
             }
             $usreIinfo[0]["isAdmin"]=$usreIinfo[0]["isAdmin"]!=1?0:1;
             if($usreIinfo[0]["isAdmin"]==1)
@@ -75,7 +75,7 @@
             <?php
             }
             ?>
-            <li class="em_floate"><div id="LogIn"  class="g-signin2" data-onsuccess="onSignIn" onclick="signIn();"></div></li>
+            <li class="em_floate"  id="LogIn" ><div class="g-signin2" data-onsuccess="onSignIn" onclick="signIn();"></div></li>
             <li class="em_floate"><a id="LogOut" href="#" onclick="signOut();" data-prompt="select_account">Sign out</a> </li>
             <li class="em_floate"><img id="user_img"  style="margin: 11px; size: 20px; height: 60px;" src="" alt="Italian Trulli"></li>
             
@@ -100,6 +100,7 @@ gapi.auth2.init({
   {
   
     document.getElementById("LogIn").style.visibility = "hidden";
+    document.getElementById("LogIn").style.width="0px";
     document.getElementById("LogOut").style.visibility = "";
     document.getElementById("user_img").style.visibility = "";
     if(auth2.isSignedIn.get() )

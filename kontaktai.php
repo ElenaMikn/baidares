@@ -4,9 +4,9 @@
    include  'FixedNavbar.php';// atvaizdouname meniu
    ?>
      
-	<div class="container theme-showcase" role="main">
+	<div class="container theme-showcase em_margin_bottom" role="main">
 		<div class="page-header em_head">
-			<h1  class=em_h1>Kontaktai</h1>
+			<h1  class=em_h1>Kontaktai</h1> 
 		</div>
 		<div class="row">
 			<div class="col-md-12">

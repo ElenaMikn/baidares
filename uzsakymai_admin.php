@@ -19,7 +19,6 @@
 	   <?php
 	include  'FixetFooter.php';
 	return;
-	   
    }
    ?>
 
@@ -27,6 +26,7 @@
 	 <div class="page-header em_head">
         <h1 class=em_h1>Užsakymų peržiūra</h1>
       </div>
+	  <div class="row  em_uzsakymas em_margin_bottom">
 	   <form action="uzsakymai_admin.php" method="POST">
 		 <input type="hidden" name="user_id"  >
 	   <input type="date" name="plaukimo_data" value="<?php
@@ -39,8 +39,7 @@
 	   </form>
 
 	  
-      <div class="row  em_uzsakymas em_margin_bottom">
-	          <div class="col-md-12 table-responsive ">
+              <div class="col-md-12 table-responsive ">
 			  <table class="table ">
             <thead>
               <tr>

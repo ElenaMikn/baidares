@@ -2,7 +2,7 @@
 //global $servername, $username, $password, $dbname;
 $servername = "localhost";
 $username = "elen";
-$password = "SukruvotiAstriadygis";
+$password = "QPP3hZNq283jhqZj";
 $dbname = "elen_test2";
 /*
 $servername = "localhost";
