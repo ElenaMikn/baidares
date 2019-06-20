@@ -13,7 +13,7 @@
 	   ?>
 		<div class="container theme-showcase em_margin_bottom" role="main" >
 	 		<div class="page-header em_head">
-        	<h1 class=em_h1>Jus neturite teisiu matyti šiuos duomenys</h1>
+        	<h1 class=em_h1>Jūs neturite teisės matyti šių duomenų</h1>
       		</div>
 		</div>
 	   <?php

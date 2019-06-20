@@ -18,7 +18,7 @@ Aukštaitijos nacionaliniame parke, <br>
 Kaltanėnų miestelyje,<br>
 Žeimenos upės pakrantėje. <br>
 <br>
-Skambinkite: +370 689 69244  <br>
+Skambinkite: +370 685 71268  <br>
  <br>
 Rašykite: info@baidares.com<br>
 <br>
